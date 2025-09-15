@@ -1,18 +1,11 @@
 # desenvolver rotina para obter a base anual
 # tem 3 opções de bases para coletar no servidor do mte
 
+# pacote ------------------------------------------------------------------
 library(data.table)
 
+# leitura -----------------------------------------------------------------
 caminho <- "bases/CAGEDMOV202507/CAGEDMOV202507.txt"
-
-primeira_linha <-
-  data.table::fread(
-    file = caminho,
-    sep = ";", dec = ",",
-    # encoding = "Latin-1" , 
-    data.table = TRUE ,
-    nrows = 1
-    )
 
 dado <- 
   fread(
@@ -25,6 +18,8 @@ dado <-
     showProgress = FALSE ) |> 
   janitor::clean_names()
 
+
+# definindo ponto inicial e final -----------------------------------------
 setorder(dado, uf)
 mapa_caract <- dado[,.(Total=.N),by=uf]
 mapa_caract[,Inicial:=cumsum(Total)-Total]
@@ -34,18 +29,8 @@ UF_escolhida <- "32"
 inicio <- mapa_caract[uf==UF_escolhida,Inicial] 
 final <- mapa_caract[uf==UF_escolhida,Final]
 
-# dado <-
-#   data.table::fread(
-#     file = caminho,
-#     sep = ";", dec = ",",
-#     # encoding = "Latin-1" , 
-#     # header = T,
-#     data.table = TRUE,
-#     skip = inicio,
-#     nrows = final-inicio,
-#     showProgress = FALSE 
-#     )
 
+# filtrando informações ---------------------------------------------------
 dado_completo <- fread(
   file = caminho,
   sep = ";", dec = ",",

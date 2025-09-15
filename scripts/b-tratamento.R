@@ -24,11 +24,11 @@ print("Tabela frequência dos tipos de movimentação.")
 base[,.(Total=.N),by = tipomovimentacao]
 
 cd_tm_admissoes <- 
-  c(10, 20, 25, 35, 70)
+  c(10, 20, 25, 35, 70, 97)
 cd_tm_desligamentos <- 
-  c(31, 32, 40, 43, 45, 50, 60, 80, 90)
+  c(31, 32, 40, 43, 45, 50, 60, 80, 90, 98)
 cd_tm_outros <-
-  c(33, 98, 97, 99)
+  c(33, 99)
 
 base[, tipomovimentacao_agrup :=
        fcase(
@@ -83,3 +83,5 @@ base[ocupacao_criativo == "Ocupação Criativa", .(Total=.N),
 # 40: por parte do empregado
 # 97: admissões de tipo ignorado - o que significa?
 # 97: admissão sem motivo especifícado
+
+# a proporção de admitidos e demitidos entre as ocupações criativas é proporcional entre os criativos e não criativos??
