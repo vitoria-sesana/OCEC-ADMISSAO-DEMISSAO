@@ -85,3 +85,4 @@ base[ocupacao_criativo == "Ocupação Criativa", .(Total=.N),
 # 97: admissão sem motivo especifícado
 
 # a proporção de admitidos e demitidos entre as ocupações criativas é proporcional entre os criativos e não criativos??
+
