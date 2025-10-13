@@ -5,7 +5,7 @@
 library(data.table)
 
 # leitura -----------------------------------------------------------------
-caminho <- "bases/CAGEDMOV202507/CAGEDMOV202507.txt"
+caminho <- "bases/arquivados/CAGEDMOV202507/CAGEDMOV202507.txt"
 
 dado <- 
   fread(

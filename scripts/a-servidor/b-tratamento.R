@@ -7,7 +7,7 @@ library(data.table)
 
 # leitura -----------------------------------------------------------------
 caminho_CBO_CRIATIVOS <- "bases/dicionario_CBO_CRIATIVO.csv"
-caminho_CAGED_ES_2025 <- "bases/CAGED_ES_202507.parquet"
+caminho_CAGED_ES_2025 <- "bases/arquivados/CAGED_ES_202507.parquet"
 
 cd_CBO_CRIATIVOS <- 
   read.csv(caminho_CBO_CRIATIVOS) |>

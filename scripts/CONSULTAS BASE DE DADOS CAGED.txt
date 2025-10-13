@@ -1,0 +1,8 @@
+CONSULTAS BASE DE DADOS CAGED 
+
+DICIONARIO CAGED ---------------
+SELECT * FROM `basedosdados.br_me_caged.dicionario` WHERE id_tabela = "microdados_movimentacao" and nome_coluna = "tipo_movimentacao"
+
+
+CAGED MOVIMENTACAO ANALISES ----------------
+SELECT tipo_movimentacao, ano, COUNT(tipo_movimentacao) FROM `basedosdados.br_me_caged.microdados_movimentacao` WHERE sigla_uf = "ES" GROUP BY tipo_movimentacao, ano ORDER BY tipo_movimentacao
