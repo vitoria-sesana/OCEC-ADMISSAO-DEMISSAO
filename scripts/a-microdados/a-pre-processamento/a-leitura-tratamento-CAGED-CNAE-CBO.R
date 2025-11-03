@@ -11,6 +11,7 @@ library(data.table)
 
 # leitura -----------------------------------------------------------------
 caminho_CBO_CRIATIVOS <- "bases/dicionario_CBO_CRIATIVO.csv"
+caminho_CNAE_CRIATIVOS <- "bases/dicionario_CNAE_CRIATIVO.csv"
 caminho_caged_2024 <- "bases/cagedmov_ES_2024.csv"
 
 base <- 
@@ -27,6 +28,14 @@ cd_CBO_CRIATIVOS <-
   janitor::clean_names() |>
   unlist() |>
   as.integer()
+
+base_cnae <- read.csv(caminho_CNAE_CRIATIVOS) |> 
+  mutate(
+    cnae_2_subclasse = as.integer(stringr::str_replace_all(CNAE, "[^0-9]", "")),
+  ) |> 
+  janitor::clean_names() |> 
+  select(cnae_2_subclasse, grande_setor, segmento, descricao_da_atividade)
+
 
 # tratamento -----------------------------------------------------------------
 base <- base[, mes := factor(mes, levels = c(1:12))]
@@ -61,33 +70,21 @@ base[, ocupacao_criativo :=
          "Ocupação não Criativa"
        )]
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# análises base caged 2024 ------------------------------------------------
-# variáveis de interesse: ocupacao criativa, admitidos e demitidos (com e sem agrupação)
-print("Tabela frequência das ocupações criativas e não criativas.")
-base[,.(Total=.N),by = ocupacao_criativo] 
 
-print("Tabela frequência das ocupações criativas e não criativas, série histórica.")
-tab_01 <- base[,.(Total=.N), by = c("ocupacao_criativo", "mes")]
-setorder(tab_01, mes)
-tab_01 
-
-print("Tabela frequência dos tipos de movimentação.")
-base[,.(Total=.N),by = tipo_movimentacao] 
-
-print("Tabela frequência dos tipos de movimentação agrupados.")
-base[,.(Total=.N),by = tipo_movimentacao_agrup] 
-
-print("Tabela frequência dos tipos de movimentação agrupados e o saldo.")
-base[,.(Total=.N, Sum=sum(saldo_movimentacao)),by = tipo_movimentacao_agrup] 
-
-# outras variáveis 
-print("Tabela frequência das fontes de movimentação.")
-base[,.(Total=.N),by = origem_informacao] 
-
-print("Tabela frequência indicador de aprendiz.")
-base[,.(Total=.N),by = indicador_aprendiz] 
+base[, id_municipio_trat := as.numeric(
+  stringr::str_sub(id_municipio, 1,6)    
+)]
 
 
-# análise cruzada ---------------------------------------------------------
-base[,.(Total=.N), by = c(tipo_movimentacao_agrup, ocupacao_criativo)] 
+# CNAE --------------------------------------------------------------------
+base_merge <- 
+  left_join(base, base_cnae, by = c("cnae_2_subclasse")) |>
+  as.data.table()
+
+base_merge[,grande_setor := fifelse(is.na(grande_setor), "Setor não criativo", grande_setor)]
+base_merge[,segmento := fifelse(is.na(segmento), "Segmento não criativo", grande_setor)]
+base_merge[,descricao_da_atividade := fifelse(is.na(descricao_da_atividade), "Sem descrição", descricao_da_atividade)]
+
+# saída -------------------------------------------------------------------
+
+arrow::write_parquet(base_merge, "bases/cagedmov_ES_2024_tratado.parquet")
