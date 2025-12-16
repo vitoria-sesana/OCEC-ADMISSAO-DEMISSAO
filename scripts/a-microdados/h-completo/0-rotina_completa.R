@@ -4,42 +4,19 @@ rm(list = ls())
 library(data.table)
 library(ggplot2)
 library(dplyr)
-library(geobr)
 
 # leitura base CAGED pré processada --------------------------------------------
-base <- arrow::read_parquet("bases/cagedmov_ES_2024_tratado.parquet")
+base_2007_2019 <- arrow::read_parquet("bases/cagedmov_ES_2007-2019_tratado.parquet")
+base_2020_2024 <- arrow::read_parquet("bases/cagedmov_ES_2020-2024_tratado.parquet")
 
-# CBO ---------------------------------------------------------------------
 base_cbo_criativo <- read.csv("bases/dicionario_CBO_CRIATIVO.csv") |>
   janitor::clean_names()
 
-# CNAE --------------------------------------------------------------------
 base_cnae_criativo <- read.csv("bases/dicionario_CNAE_CRIATIVO.csv") %>%
   mutate(
     cnae_trat = as.integer(stringr::str_replace_all(CNAE, "[^0-9]", "")),
   ) |>
   janitor::clean_names()
-
-# leitura base RAIS: total de empregos ES 2024 ---------------------------------
-base_total_empregos_muni_ES_2024 <- 
-  read.csv("bases/RAIS/total_empregos_muni_ES_2024.csv") 
-
-base_total_empregos_ES_2024 <- 
-  read.csv("bases/RAIS/total_empregos_ES_2024.csv") |>
-  select(Total) |> 
-  as.numeric()
-# fonte: vinculos rais 2024 (victor -> base de dados)
-
-
-# leitura base RAIS: total de empregos ES 2023 ----------------------------
-base_total_empregos_muni_ES_2023 <- 
-  read.csv("bases/RAIS/total_empregos_muni_ES_2023.csv") 
-
-base_total_empregos_ES_2023 <- 
-  base_total_empregos_muni_ES_2023$total |> 
-  sum() |> 
-  as.integer()
-# fonte qntd_vinculo do estabelecimento 2023 (base de dados)
 
 # leitura base RAIS: 2006-2024 por cnae -----------------------------------
 total_empregos_ES_anual_cnae_2006_2024 <- 
@@ -65,3 +42,5 @@ base_total_empregos_ES_anual_cnae_2006_2024_final <-
 
 rm(total_empregos_ES_anual_cnae_2006_2024_trat,
    total_empregos_ES_anual_cnae_2006_2024)
+
+base_2020_2024 <- base_2020_2024[ano != 2025,]

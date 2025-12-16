@@ -1,0 +1,25 @@
+require(dplyr)
+
+# leitura -----------------------------------------------------------------
+
+caminho_pibtrim <- "bases/IJSN/PIB_Trimestral_2025_III.xlsx"
+
+
+pibtrim <- 
+  readxl::read_xlsx(caminho_pibtrim, sheet = "Planilha7") 
+
+
+pibtrim_tratado <-
+  pibtrim |>
+  # estrutura da base
+  janitor::row_to_names(1) |>
+  janitor::clean_names() |>
+  dplyr::slice(-96) |>
+  mutate(ano_trim = na) |>
+  # novas colunas 
+  tidyr::separate(
+    col = na,   
+    into = c("ano", "trimestre"), 
+    sep = "\\."            
+  )
+

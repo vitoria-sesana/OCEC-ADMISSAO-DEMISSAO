@@ -5,4 +5,18 @@ SELECT * FROM `basedosdados.br_me_caged.dicionario` WHERE id_tabela = "microdado
 
 
 CAGED MOVIMENTACAO ANALISES ----------------
-SELECT tipo_movimentacao, ano, COUNT(tipo_movimentacao) FROM `basedosdados.br_me_caged.microdados_movimentacao` WHERE sigla_uf = "ES" GROUP BY tipo_movimentacao, ano ORDER BY tipo_movimentacao
+SELECT tipo_movimentacao, ano, COUNT(tipo_movimentacao) FROM `basedosdados.br_me_caged.microdados_movimentacao` WHERE sigla_uf = "ES" GROUP BY tipo_movimentacao, ano ORDER BY tipo movimentação
+
+
+RAIS VINCULO CLT TOTAIS ANALISES ----------------
+SELECT cnae_2_subclasse, ano, sum(quantidade_vinculos_clt) as quantidade_total_vinculos_clt FROM `basedosdados.br_me_rais.microdados_estabelecimentos` where ano in 
+(2006, 2007, 2008, 2009, 2010, 2011, 2012,2013,2014,2015,2016,2017,2018, 2019,2020,2021,2022, 2023,2024) and sigla_uf = 'ES' group by cnae_2_subclasse, ano
+
+SELECT * FROM `basedosdados.br_me_caged.microdados_movimentacao` where sigla_uf = 'ES' 
+
+SELECT cbo_2002, cnae_2_subclasse FROM `basedosdados.br_me_caged.microdados_antigos_ajustes` where sigla_uf = '2002' limit 100
+
+# cagedmov antigo 2007-2010
+SELECT mes, ano, cbo_2002, cnae_2_subclasse, tipo_movimentacao_desagregado, saldo_movimentacao FROM `basedosdados.br_me_caged.microdados_antigos_ajustes` where sigla_uf = 'ES'
+
+SELECT ano, mes, tipo_movimentacao_desagregado as tipo_movimentacao,saldo_movimentacao, cbo_2002, cnae_2_subclasse FROM `basedosdados.br_me_caged.microdados_antigos` where sigla_uf = 'ES'

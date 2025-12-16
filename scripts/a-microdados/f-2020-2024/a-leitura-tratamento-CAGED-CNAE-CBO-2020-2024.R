@@ -12,14 +12,14 @@ library(data.table)
 # leitura -----------------------------------------------------------------
 caminho_CBO_CRIATIVOS <- "bases/dicionario_CBO_CRIATIVO.csv"
 caminho_CNAE_CRIATIVOS <- "bases/dicionario_CNAE_CRIATIVO.csv"
-caminho_caged_2024 <- "bases/cagedmov_ES_2024.csv"
+caminho_caged_2024 <- "bases/cagedmov_ES_2020-2024.csv"
 
 base <- 
   data.table::fread(
-  file = caminho_caged_2024,
-  sep = ",", dec = ".",
-  data.table = TRUE,
-  showProgress = FALSE
+    file = caminho_caged_2024,
+    sep = ",", dec = ".",
+    data.table = TRUE,
+    showProgress = FALSE
   ) |>
   janitor::clean_names()
 
@@ -88,4 +88,4 @@ base_merge[,descricao_da_atividade := fifelse(is.na(descricao_da_atividade), "Se
 
 # saída -------------------------------------------------------------------
 
-arrow::write_parquet(base_merge, "bases/cagedmov_ES_2024_tratado.parquet")
+arrow::write_parquet(base_merge, "bases/cagedmov_ES_2020-2024_tratado.parquet")

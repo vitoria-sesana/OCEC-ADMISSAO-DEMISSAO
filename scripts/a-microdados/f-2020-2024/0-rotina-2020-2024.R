@@ -7,7 +7,7 @@ library(dplyr)
 library(geobr)
 
 # leitura base CAGED pré processada --------------------------------------------
-base <- arrow::read_parquet("bases/cagedmov_ES_2024_tratado.parquet")
+base <- arrow::read_parquet("bases/cagedmov_ES_2020-2024_tratado.parquet")
 
 # CBO ---------------------------------------------------------------------
 base_cbo_criativo <- read.csv("bases/dicionario_CBO_CRIATIVO.csv") |>
@@ -65,3 +65,5 @@ base_total_empregos_ES_anual_cnae_2006_2024_final <-
 
 rm(total_empregos_ES_anual_cnae_2006_2024_trat,
    total_empregos_ES_anual_cnae_2006_2024)
+
+base <- base[ano != 2025,]
