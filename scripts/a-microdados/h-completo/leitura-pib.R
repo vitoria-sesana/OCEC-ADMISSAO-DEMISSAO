@@ -21,5 +21,10 @@ pibtrim_tratado <-
     col = na,   
     into = c("ano", "trimestre"), 
     sep = "\\."            
-  )
+  ) |>
+  # padronização da base 
+  filter(ano >= 2008 & ano < 2025)
 
+
+# saida -------------------------------------------------------------------
+write.csv2(pibtrim_tratado, "scripts/a-microdados/h-completo/tabela_pib.csv")

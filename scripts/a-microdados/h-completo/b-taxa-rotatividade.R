@@ -212,3 +212,8 @@ ggplot(tabela, aes(x = mes_ano,
     limits = c(0, 10)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ggtitle("2008-2024")
+
+
+# saidas ------------------------------------------------------------------
+write.csv2(tabela, "scripts/a-microdados/h-completo/tabela_geral.csv")
+write.csv2(tabela_final, "scripts/a-microdados/h-completo/tabela_setores_criativos.csv")
