@@ -215,5 +215,5 @@ ggplot(tabela, aes(x = mes_ano,
 
 
 # saidas ------------------------------------------------------------------
-write.csv2(tabela, "scripts/a-microdados/h-completo/tabela_geral.csv")
-write.csv2(tabela_final, "scripts/a-microdados/h-completo/tabela_setores_criativos.csv")
+write.csv2(tabela, "scripts/a-microdados/h-completo/saidas/tabela_geral.csv")
+write.csv2(tabela_final, "scripts/a-microdados/h-completo/saidas/tabela_setores_criativos.csv")
