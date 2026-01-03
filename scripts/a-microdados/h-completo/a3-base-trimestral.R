@@ -12,7 +12,7 @@
 # taxa média da rotatividade entre criativos e não criativos
 
 # perguntas: a volatidade cai ou decai?
-# teste de grandewech; defasagem temporal
+# teste de granger; defasagem temporal
 
 
 # pacotes -----------------------------------------------------------------
@@ -23,7 +23,6 @@ require(ggplot2)
 tabela_geral <- read.csv2("scripts/a-microdados/h-completo/saidas/tabela_geral.csv")
 tabela_criativos <- read.csv2("scripts/a-microdados/h-completo/saidas/tabela_setores_criativos.csv")
 tabela_pib <- read.csv2("scripts/a-microdados/h-completo/saidas/tabela_pib.csv")
-
 
 # tratamento --------------------------------------------------------------
 
@@ -225,3 +224,4 @@ tabela_pib_trimestral
 tabela_completa
 
 write.csv2(tabela_completa, "scripts/a-microdados/h-completo/saidas/tabela_trimestral.csv")
+

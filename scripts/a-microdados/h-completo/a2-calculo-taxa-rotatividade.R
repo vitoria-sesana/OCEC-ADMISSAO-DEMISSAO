@@ -1,7 +1,6 @@
 # rotina ------------------------------------------------------------------
 source("scripts/a-microdados/h-completo/0-rotina_completa.R", encoding = "UTF-8")
 
-
 # Criativos e não criativos -----------------------------------------------
 
 # bases 2007:2019 e 2020:2024 ---------------------------------------------

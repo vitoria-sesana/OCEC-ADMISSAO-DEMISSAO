@@ -4,7 +4,6 @@ require(dplyr)
 
 caminho_pibtrim <- "bases/IJSN/PIB_Trimestral_2025_III.xlsx"
 
-
 pibtrim <- 
   readxl::read_xlsx(caminho_pibtrim, sheet = "Valores") |>
   janitor::row_to_names(3) |>

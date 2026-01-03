@@ -1,4 +1,6 @@
+rm(list = ls())
 
+# pacotes -----------------------------------------------------------------
 library(dplyr)
 library(tidyverse)
 library(forecast)
@@ -135,3 +137,4 @@ cor(
 # tambem realizar com a sassonalizada 
 # pib e taxa de rotatividade
 # acontece antes ou depois?
+
