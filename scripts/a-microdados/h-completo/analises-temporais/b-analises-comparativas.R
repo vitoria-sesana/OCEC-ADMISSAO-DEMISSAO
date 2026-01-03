@@ -88,7 +88,12 @@ ts_nao_criativo_diff <- diff(ts_nao_criativo_resultados, lag = 4)
 plot(ts_nao_criativo_diff)
 tseries::adf.test(ts_nao_criativo_diff)
 
+
+
 tseries::adf.test(ts_pib_resultados)
+ts_pib_diff <- diff(ts_pib_resultados, lag = 4)
+plot(ts_pib_diff)
+tseries::adf.test(ts_pib_diff)
 
 
 # análises de comovimentos ----- 
@@ -96,10 +101,9 @@ tseries::adf.test(ts_pib_resultados)
 ## 1: extração do ciclo ------------
 library(mFilter)
 
-ciclo_pib <- hpfilter(ts_pib_resultados, freq = 1600)$cycle
+ciclo_pib <- hpfilter(ts_pib_diff, freq = 1600)$cycle
 ciclo_criativo <- hpfilter(ts_criativo_diff, freq = 1600)$cycle
 ciclo_nao_criativo <- hpfilter(ts_nao_criativo_diff, freq = 1600)$cycle
-
 
 ## 2: CCF: função de correlação cruzada ------
 analise_comovimento_c <- stats::ccf(ciclo_pib, ciclo_criativo, lag.max = 8, plot = TRUE)
@@ -108,17 +112,22 @@ analise_comovimento_nc <- stats::ccf(ciclo_pib, ciclo_nao_criativo, lag.max = 8,
 summary(analise_comovimento_c)
 stats::ccf(ciclo_pib, ciclo_criativo, lag.max = 8, plot = FALSE)
 
-
-ccf(ciclo_pib, ciclo_criativo) # ciclo das séries
+## pib x criativo ----------
+ccf(ciclo_pib, ciclo_criativo)
 # pró ciclíca e coincidente 
-ccf(ts_pib_resultados, ts_criativo_diff) # séries estacionárias
-# prever o que vai acontecer na economia, no pib
-# pró ciclíca e Antecedente  
 
-## discutir a questão da série usando ela estacionária ou ajustada pelo HP
-
-ccf(ciclo_pib, ciclo_nao_criativo) # ciclo das séries
+## pib x nao criativo ----------
+ccf(ciclo_pib, ciclo_nao_criativo) 
 # pró ciclíca e coincidente 
-ccf(ts_pib_resultados, ts_nao_criativo_diff) # séries estacionárias
-# prever o que vai acontecer na economia, no pib
-# pró ciclíca e Antecedente  
+
+
+# teste de causalidade de granger -----------------------------------------
+
+## pib x criativo ----------
+grangertest(ts_pib_diff ~ ts_criativo_diff, order = 1) # quase signficativo
+grangertest(ts_criativo_diff ~ ts_pib_diff, order = 1)
+
+## pib x nao criativo ----------
+grangertest(ts_pib_diff ~ ts_nao_criativo_diff, order = 1)
+grangertest(ts_nao_criativo_diff ~ ts_pib_diff, order = 1)
+
